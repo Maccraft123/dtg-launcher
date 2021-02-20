@@ -92,24 +92,26 @@ int main(void)
 
 
 	strcpy(menus[MAINMENU].name, "Main Menu");
-	menus[MAINMENU].size = 6;			// it has to be one more than highest index
+	menus[MAINMENU].size = 7;			// it has to be one more than highest index
 	menus[MAINMENU].parent_id = MAINMENU;		// it is THE parent
 
 	// set names of children
 	strcpy(menus[MAINMENU].items[0].name, "Launch Retroarch");
 	strcpy(menus[MAINMENU].items[1].name, "Launch STK");
 	strcpy(menus[MAINMENU].items[2].name, "Launch Minecraft");
-	strcpy(menus[MAINMENU].items[3].name, "Settings");
-	strcpy(menus[MAINMENU].items[4].name, "Utilities");
-	strcpy(menus[MAINMENU].items[5].name, "Poweroff");
+	strcpy(menus[MAINMENU].items[3].name, "Launch Kodi");
+	strcpy(menus[MAINMENU].items[4].name, "Settings");
+	strcpy(menus[MAINMENU].items[5].name, "Utilities");
+	strcpy(menus[MAINMENU].items[6].name, "Poweroff");
 
 	// point function pointers at functions
 	menus[MAINMENU].items[0].function = &retroarch;
 	menus[MAINMENU].items[1].function = &supertuxkart;
 	//menus[MAINMENU].items[2].function = &minecraft;
-	//menus[MAINMENU].items[3].function = NONE
+	//menus[MAINMENU].items[3].function = &kodi;
 	//menus[MAINMENU].items[4].function = NONE
-	menus[MAINMENU].items[5].function = &poweroff;
+	//menus[MAINMENU].items[5].function = NONE
+	menus[MAINMENU].items[6].function = &poweroff;
 
 	// set default as function type
 	for(int i = 0; i < menus[MAINMENU].size; i++)
@@ -117,10 +119,29 @@ int main(void)
 
 	// and override it later for special items
 	menus[MAINMENU].items[4].type = TYPE_MENU;
-	menus[MAINMENU].items[4].child_id = UTILITY;
+	menus[MAINMENU].items[4].child_id = SETTINGS;
 
+	menus[MAINMENU].items[5].type = TYPE_MENU;
+	menus[MAINMENU].items[5].child_id = UTILITY;
 	
-	strcpy(menus[SETTINGS].name, "Utilities");
+	strcpy(menus[SETTINGS].name, "Settings");
+	menus[SETTINGS].size = 3;
+	menus[SETTINGS].parent_id = MAINMENU;
+
+	strcpy(menus[SETTINGS].items[0].name, "SSH Access:");
+	strcpy(menus[SETTINGS].items[1].name, "WiFi Settings");
+	strcpy(menus[SETTINGS].items[2].name, "Go back to main menu");
+
+	//menus[SETTINGS].items[0].function = &ssh_toggle;
+	//menus[SETTINGS].items[0].function = &wifi_set;
+	//menus[SETTINGS].items[0].function = NONE
+
+	for(int i = 0; i < menus[SETTINGS].size; i++)
+		menus[SETTINGS].items[i].type = TYPE_FUNC;
+
+	menus[SETTINGS].items[2].type = TYPE_PARENT;
+
+	strcpy(menus[UTILITY].name, "Utilities");
 	menus[UTILITY].size = 7;
 	menus[UTILITY].parent_id = MAINMENU;
 
