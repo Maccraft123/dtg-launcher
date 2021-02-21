@@ -56,6 +56,14 @@ void update_rootfs()
 	curs_set(0);
 }
 
+void spi_erase()
+{
+	printf("This will take few seconds... Keep your eyes on screen.\n");
+	system("sudo dd if=/dev/mtd0 of=/spi_backup bs=1M count=1 status=progress");
+	system("sudo dd if=/dev/zero of=/dev/mtd0 bs=1M count=1 status=progress");
+	sleep(5);
+}
+
 struct type_item
 {
 	char name[32];
@@ -142,7 +150,7 @@ int main(void)
 	menus[SETTINGS].items[2].type = TYPE_PARENT;
 
 	strcpy(menus[UTILITY].name, "Utilities");
-	menus[UTILITY].size = 7;
+	menus[UTILITY].size = 8;
 	menus[UTILITY].parent_id = MAINMENU;
 
 	strcpy(menus[UTILITY].items[0].name, "Update rootfs");
@@ -151,7 +159,8 @@ int main(void)
 	strcpy(menus[UTILITY].items[3].name, "File manager");
 	strcpy(menus[UTILITY].items[4].name, "Music player");
 	strcpy(menus[UTILITY].items[5].name, "Launch Weston");
-	strcpy(menus[UTILITY].items[6].name, "Go back to main menu");
+	strcpy(menus[UTILITY].items[6].name, "Backup and erase SPI NOR memory");
+	strcpy(menus[UTILITY].items[7].name, "Go back to main menu");
 
 	menus[UTILITY].items[0].function = &update_rootfs;
 	//menus[UTILITY].items[1].function = &update_kernel;
@@ -159,7 +168,8 @@ int main(void)
 	//menus[UTILITY].items[3].function = &filemanager;
 	//menus[UTILITY].items[4].function = &music;
 	//menus[UTILITY].items[5].function = &weston;
-	//menus[UTILITY].items[6].function = NONE
+	menus[UTILITY].items[6].function = &spi_erase;
+	//menus[UTILITY].items[7].function = NONE
 
 	for(int i = 0; i < menus[MAINMENU].size; i++)
 		menus[UTILITY].items[i].type = TYPE_FUNC;
@@ -167,7 +177,7 @@ int main(void)
 	menus[UTILITY].items[2].type = TYPE_MENU;
 	menus[UTILITY].items[2].child_id = USBMODE;
 
-	menus[UTILITY].items[6].type = TYPE_PARENT;
+	menus[UTILITY].items[7].type = TYPE_PARENT;
 
 	strcpy(menus[USBMODE].name, "USB Mode");
 	menus[USBMODE].size = 4;
