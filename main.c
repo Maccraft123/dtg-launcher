@@ -35,6 +35,26 @@ void supertuxkart()
 	system("swaymsg workspace 1 || true");
 }
 
+void kodi()
+{
+	system("swaymsg workspace 2 || true");
+	system("kodi || true");
+	system("swaymsg workspace 1 || true");
+}
+
+void minecraft()
+{
+	system("swaymsg workspace 2 || true");
+	system("env LD_LIBRARY_PATH= LIBGL_DRIVERS_PATH=/usr/lib/arm-linux-gnueabihf/dri/:/usr/lib/aarch64-linux-gnu/dri EGL_PLATFORM=x11 QT_QPA_PLATFORM=xcb DISPLAY=:0 /home/user/mcpe/MC.AppImage > ~/.mclog 2>&1");
+	system("swaymsg workspace 1 || true");
+}
+
+void music()
+{
+	system("swaymsg workspace 2 || true");
+	system("swaymsg workspace 1 || true");
+}
+
 void poweroff()
 {
 	system("systemctl poweroff -i || true");
@@ -62,6 +82,13 @@ void spi_erase()
 	system("sudo dd if=/dev/mtd0 of=/spi_backup bs=1M count=1 status=progress");
 	system("sudo dd if=/dev/zero of=/dev/mtd0 bs=1M count=1 status=progress");
 	sleep(5);
+}
+
+void firefox()
+{
+	system("swaymsg workspace 2 || true");
+	system("firefox");
+	system("swaymsg workspace 1 || true");
 }
 
 struct type_item
@@ -115,8 +142,8 @@ int main(void)
 	// point function pointers at functions
 	menus[MAINMENU].items[0].function = &retroarch;
 	menus[MAINMENU].items[1].function = &supertuxkart;
-	//menus[MAINMENU].items[2].function = &minecraft;
-	//menus[MAINMENU].items[3].function = &kodi;
+	menus[MAINMENU].items[2].function = &minecraft;
+	menus[MAINMENU].items[3].function = &kodi;
 	//menus[MAINMENU].items[4].function = NONE
 	//menus[MAINMENU].items[5].function = NONE
 	menus[MAINMENU].items[6].function = &poweroff;
@@ -158,7 +185,7 @@ int main(void)
 	strcpy(menus[UTILITY].items[2].name, "USB Modes");
 	strcpy(menus[UTILITY].items[3].name, "File manager");
 	strcpy(menus[UTILITY].items[4].name, "Music player");
-	strcpy(menus[UTILITY].items[5].name, "Launch Weston");
+	strcpy(menus[UTILITY].items[5].name, "Launch Firefox");
 	strcpy(menus[UTILITY].items[6].name, "Backup and erase SPI NOR memory");
 	strcpy(menus[UTILITY].items[7].name, "Go back to main menu");
 
@@ -166,8 +193,8 @@ int main(void)
 	//menus[UTILITY].items[1].function = &update_kernel;
 	//menus[UTILITY].items[2].function = NONE
 	//menus[UTILITY].items[3].function = &filemanager;
-	//menus[UTILITY].items[4].function = &music;
-	//menus[UTILITY].items[5].function = &weston;
+	menus[UTILITY].items[4].function = &music;
+	menus[UTILITY].items[5].function = &firefox;
 	menus[UTILITY].items[6].function = &spi_erase;
 	//menus[UTILITY].items[7].function = NONE
 
