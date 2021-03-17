@@ -49,12 +49,6 @@ void minecraft()
 	system("swaymsg workspace 1 || true");
 }
 
-void music()
-{
-	system("swaymsg workspace 2 || true");
-	system("swaymsg workspace 1 || true");
-}
-
 void poweroff()
 {
 	system("systemctl poweroff -i || true");
@@ -177,7 +171,7 @@ int main(void)
 	menus[SETTINGS].items[2].type = TYPE_PARENT;
 
 	strcpy(menus[UTILITY].name, "Utilities");
-	menus[UTILITY].size = 8;
+	menus[UTILITY].size = 7;
 	menus[UTILITY].parent_id = MAINMENU;
 
 	strcpy(menus[UTILITY].items[0].name, "Update rootfs");
@@ -193,10 +187,9 @@ int main(void)
 	//menus[UTILITY].items[1].function = &update_kernel;
 	//menus[UTILITY].items[2].function = NONE
 	//menus[UTILITY].items[3].function = &filemanager;
-	menus[UTILITY].items[4].function = &music;
-	menus[UTILITY].items[5].function = &firefox;
-	menus[UTILITY].items[6].function = &spi_erase;
-	//menus[UTILITY].items[7].function = NONE
+	menus[UTILITY].items[4].function = &firefox;
+	menus[UTILITY].items[5].function = &spi_erase;
+	//menus[UTILITY].items[6].function = NONE
 
 	for(int i = 0; i < menus[MAINMENU].size; i++)
 		menus[UTILITY].items[i].type = TYPE_FUNC;
@@ -204,7 +197,7 @@ int main(void)
 	menus[UTILITY].items[2].type = TYPE_MENU;
 	menus[UTILITY].items[2].child_id = USBMODE;
 
-	menus[UTILITY].items[7].type = TYPE_PARENT;
+	menus[UTILITY].items[6].type = TYPE_PARENT;
 
 	strcpy(menus[USBMODE].name, "USB Mode");
 	menus[USBMODE].size = 4;
