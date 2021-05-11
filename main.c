@@ -61,6 +61,7 @@ void update_rootfs()
 	
 	system("sudo apt update || true");
 	system("sudo apt upgrade -y || true");
+	system("sudo /dtg-ng/programs/dtg-launcher/install");
 	sleep(2); // user needs to see it succeed
 
 	initscr();
