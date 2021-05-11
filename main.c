@@ -54,7 +54,7 @@ void poweroff()
 	system("systemctl poweroff -i || true");
 }
 
-void update_rootfs()
+void update()
 {
 	// if we don't deinit and reinit ncurses, logs will look sorta weird
 	endwin();
@@ -62,6 +62,7 @@ void update_rootfs()
 	system("sudo apt update || true");
 	system("sudo apt upgrade -y || true");
 	system("sudo /dtg-ng/programs/dtg-launcher/install");
+	// TODO: self-overwrite doesnt work
 	sleep(2); // user needs to see it succeed
 
 	initscr();
@@ -84,6 +85,12 @@ void firefox()
 	system("swaymsg workspace 2 || true");
 	system("firefox");
 	system("swaymsg workspace 1 || true");
+}
+
+void todo()
+{
+	// do nothing
+	;
 }
 
 struct type_item
@@ -122,98 +129,34 @@ int main(void)
 
 
 	strcpy(menus[MAINMENU].name, "Main Menu");
-	menus[MAINMENU].size = 7;			// it has to be one more than highest index
+	menus[MAINMENU].size = 9;			// it has to be one more than highest index
 	menus[MAINMENU].parent_id = MAINMENU;		// it is THE parent
 
 	// set names of children
-	strcpy(menus[MAINMENU].items[0].name, "Launch Retroarch");
-	strcpy(menus[MAINMENU].items[1].name, "Launch STK");
-	strcpy(menus[MAINMENU].items[2].name, "Launch Minecraft");
-	strcpy(menus[MAINMENU].items[3].name, "Launch Kodi");
-	strcpy(menus[MAINMENU].items[4].name, "Settings");
-	strcpy(menus[MAINMENU].items[5].name, "Utilities");
-	strcpy(menus[MAINMENU].items[6].name, "Poweroff");
+	strcpy(menus[MAINMENU].items[0].name, "Run Retroarch");
+	strcpy(menus[MAINMENU].items[1].name, "Run STK");
+	strcpy(menus[MAINMENU].items[2].name, "Run Minecraft");
+	strcpy(menus[MAINMENU].items[3].name, "Run Kodi");
+	strcpy(menus[MAINMENU].items[4].name, "Run Xash3D");
+	strcpy(menus[MAINMENU].items[5].name, "Run media player");
+	strcpy(menus[MAINMENU].items[6].name, "Enable USB Mass storage");
+	strcpy(menus[MAINMENU].items[7].name, "Update DTG-NG");
+	strcpy(menus[MAINMENU].items[8].name, "Poweroff");
 
 	// point function pointers at functions
 	menus[MAINMENU].items[0].function = &retroarch;
 	menus[MAINMENU].items[1].function = &supertuxkart;
-	menus[MAINMENU].items[2].function = &minecraft;
+	menus[MAINMENU].items[2].function = &todo; //&minecraft;
 	menus[MAINMENU].items[3].function = &kodi;
-	//menus[MAINMENU].items[4].function = NONE
-	//menus[MAINMENU].items[5].function = NONE
-	menus[MAINMENU].items[6].function = &poweroff;
+	menus[MAINMENU].items[4].function = &todo; //xash3d
+	menus[MAINMENU].items[5].function = &todo; //media player
+	menus[MAINMENU].items[6].function = &todo; //usb
+	menus[MAINMENU].items[7].function = &update; 
+	menus[MAINMENU].items[8].function = &poweroff;
 
 	// set default as function type
 	for(int i = 0; i < menus[MAINMENU].size; i++)
 		menus[MAINMENU].items[i].type = TYPE_FUNC;
-
-	// and override it later for special items
-	menus[MAINMENU].items[4].type = TYPE_MENU;
-	menus[MAINMENU].items[4].child_id = SETTINGS;
-
-	menus[MAINMENU].items[5].type = TYPE_MENU;
-	menus[MAINMENU].items[5].child_id = UTILITY;
-	
-	strcpy(menus[SETTINGS].name, "Settings");
-	menus[SETTINGS].size = 3;
-	menus[SETTINGS].parent_id = MAINMENU;
-
-	strcpy(menus[SETTINGS].items[0].name, "SSH Access:");
-	strcpy(menus[SETTINGS].items[1].name, "WiFi Settings");
-	strcpy(menus[SETTINGS].items[2].name, "Go back to main menu");
-
-	//menus[SETTINGS].items[0].function = &ssh_toggle;
-	//menus[SETTINGS].items[0].function = &wifi_set;
-	//menus[SETTINGS].items[0].function = NONE
-
-	for(int i = 0; i < menus[SETTINGS].size; i++)
-		menus[SETTINGS].items[i].type = TYPE_FUNC;
-
-	menus[SETTINGS].items[2].type = TYPE_PARENT;
-
-	strcpy(menus[UTILITY].name, "Utilities");
-	menus[UTILITY].size = 7;
-	menus[UTILITY].parent_id = MAINMENU;
-
-	strcpy(menus[UTILITY].items[0].name, "Update rootfs");
-	strcpy(menus[UTILITY].items[1].name, "Update kernel");
-	strcpy(menus[UTILITY].items[2].name, "USB Modes");
-	strcpy(menus[UTILITY].items[3].name, "File manager");
-	strcpy(menus[UTILITY].items[4].name, "Music player");
-	strcpy(menus[UTILITY].items[5].name, "Launch Firefox");
-	strcpy(menus[UTILITY].items[6].name, "Backup and erase SPI NOR memory");
-	strcpy(menus[UTILITY].items[7].name, "Go back to main menu");
-
-	menus[UTILITY].items[0].function = &update_rootfs;
-	//menus[UTILITY].items[1].function = &update_kernel;
-	//menus[UTILITY].items[2].function = NONE
-	//menus[UTILITY].items[3].function = &filemanager;
-	menus[UTILITY].items[4].function = &firefox;
-	menus[UTILITY].items[5].function = &spi_erase;
-	//menus[UTILITY].items[6].function = NONE
-
-	for(int i = 0; i < menus[MAINMENU].size; i++)
-		menus[UTILITY].items[i].type = TYPE_FUNC;
-
-	menus[UTILITY].items[2].type = TYPE_MENU;
-	menus[UTILITY].items[2].child_id = USBMODE;
-
-	menus[UTILITY].items[6].type = TYPE_PARENT;
-
-	strcpy(menus[USBMODE].name, "USB Mode");
-	menus[USBMODE].size = 4;
-	menus[USBMODE].parent_id = UTILITY;
-
-	strcpy(menus[USBMODE].items[0].name, "Restore Host USB mode");
-	strcpy(menus[USBMODE].items[1].name, "Switch to USB Storage mode");
-	strcpy(menus[USBMODE].items[2].name, "Switch to USB Gamepad mode");
-	strcpy(menus[USBMODE].items[3].name, "Go back to utilities menu");
-
-	for(int i = 0; i < menus[MAINMENU].size; i++)
-		menus[USBMODE].items[i].type = TYPE_FUNC;
-
-	menus[USBMODE].items[3].type = TYPE_PARENT;
-
 
 	// note: screen on ogs is 85x24
 	for(int i = 0; i < menus[where_i_am].size; i++)
