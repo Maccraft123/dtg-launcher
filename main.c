@@ -4,7 +4,7 @@
 #include	<math.h>
 #include	<linux/input.h>
 #include	<fcntl.h>
-#include	<curses.h>
+#include	<ncurses.h>
 #include	<string.h>
 
 #define JOYDEV "/dev/input/by-path/platform-joypad-event-joystick"
@@ -49,9 +49,17 @@ void minecraft()
 	system("swaymsg workspace 1 || true");
 }
 
+void ppsspp()
+{
+	system("swaymsg workspace 2 || true");
+	system("ppsspp-sdl || true");
+	system("swaymsg workspace 1 || true");
+}
+
 void poweroff()
 {
-	system("systemctl poweroff -i || true");
+	system("/sbin/sudo /sbin/poweroff");
+	while(1); // wait forever
 }
 
 void update()
@@ -129,7 +137,7 @@ int main(void)
 
 
 	strcpy(menus[MAINMENU].name, "Main Menu");
-	menus[MAINMENU].size = 9;			// it has to be one more than highest index
+	menus[MAINMENU].size = 10;			// it has to be one more than highest index
 	menus[MAINMENU].parent_id = MAINMENU;		// it is THE parent
 
 	// set names of children
@@ -138,10 +146,11 @@ int main(void)
 	strcpy(menus[MAINMENU].items[2].name, "Run Minecraft");
 	strcpy(menus[MAINMENU].items[3].name, "Run Kodi");
 	strcpy(menus[MAINMENU].items[4].name, "Run Xash3D");
-	strcpy(menus[MAINMENU].items[5].name, "Run media player");
-	strcpy(menus[MAINMENU].items[6].name, "Enable USB Mass storage");
-	strcpy(menus[MAINMENU].items[7].name, "Update DTG-NG");
-	strcpy(menus[MAINMENU].items[8].name, "Poweroff");
+	strcpy(menus[MAINMENU].items[5].name, "Run PPSSPP");
+	strcpy(menus[MAINMENU].items[6].name, "Run media player");
+	strcpy(menus[MAINMENU].items[7].name, "Enable USB Mass storage");
+	strcpy(menus[MAINMENU].items[8].name, "Update DTG-NG");
+	strcpy(menus[MAINMENU].items[9].name, "Poweroff");
 
 	// point function pointers at functions
 	menus[MAINMENU].items[0].function = &retroarch;
@@ -149,10 +158,11 @@ int main(void)
 	menus[MAINMENU].items[2].function = &todo; //&minecraft;
 	menus[MAINMENU].items[3].function = &kodi;
 	menus[MAINMENU].items[4].function = &todo; //xash3d
-	menus[MAINMENU].items[5].function = &todo; //media player
-	menus[MAINMENU].items[6].function = &todo; //usb
-	menus[MAINMENU].items[7].function = &update; 
-	menus[MAINMENU].items[8].function = &poweroff;
+	menus[MAINMENU].items[5].function = &ppsspp;
+	menus[MAINMENU].items[6].function = &todo; //media player
+	menus[MAINMENU].items[7].function = &todo; //usb
+	menus[MAINMENU].items[8].function = &todo; //update
+	menus[MAINMENU].items[9].function = &poweroff;
 
 	// set default as function type
 	for(int i = 0; i < menus[MAINMENU].size; i++)
