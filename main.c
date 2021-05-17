@@ -138,7 +138,7 @@ int main(void)
 
 
 	strcpy(menus[MAINMENU].name, "Main Menu");
-	menus[MAINMENU].size = 10;			// it has to be one more than highest index
+	menus[MAINMENU].size = 12;			// it has to be one more than highest index
 	menus[MAINMENU].parent_id = MAINMENU;		// it is THE parent
 
 	// set names of children
@@ -148,10 +148,12 @@ int main(void)
 	strcpy(menus[MAINMENU].items[3].name, "Run Kodi");
 	strcpy(menus[MAINMENU].items[4].name, "Run Xash3D");
 	strcpy(menus[MAINMENU].items[5].name, "Run PPSSPP");
-	strcpy(menus[MAINMENU].items[6].name, "Run media player");
-	strcpy(menus[MAINMENU].items[7].name, "Enable USB Mass storage");
-	strcpy(menus[MAINMENU].items[8].name, "Update DTG-NG");
-	strcpy(menus[MAINMENU].items[9].name, "Poweroff");
+	strcpy(menus[MAINMENU].items[6].name, "Run TheXTech");
+	strcpy(menus[MAINMENU].items[7].name, "Run re3");
+	strcpy(menus[MAINMENU].items[8].name, "Run media player");
+	strcpy(menus[MAINMENU].items[9].name, "Enable USB Mass storage");
+	strcpy(menus[MAINMENU].items[10].name, "Update DTG-NG");
+	strcpy(menus[MAINMENU].items[11].name, "Poweroff");
 
 	// point function pointers at functions
 	menus[MAINMENU].items[0].function = &retroarch;
@@ -160,10 +162,12 @@ int main(void)
 	menus[MAINMENU].items[3].function = &kodi;
 	menus[MAINMENU].items[4].function = &todo; //xash3d
 	menus[MAINMENU].items[5].function = &ppsspp;
-	menus[MAINMENU].items[6].function = &todo; //media player
-	menus[MAINMENU].items[7].function = &todo; //usb
-	menus[MAINMENU].items[8].function = &todo; //update
-	menus[MAINMENU].items[9].function = &poweroff;
+	menus[MAINMENU].items[6].function = &todo; //thextech
+	menus[MAINMENU].items[7].function = &todo; //re3
+	menus[MAINMENU].items[8].function = &todo; //media player
+	menus[MAINMENU].items[9].function = &todo; //usb
+	menus[MAINMENU].items[10].function = &todo; //update
+	menus[MAINMENU].items[11].function = &poweroff;
 
 	// set default as function type
 	for(int i = 0; i < menus[MAINMENU].size; i++)
