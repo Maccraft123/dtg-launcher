@@ -59,6 +59,7 @@ void ppsspp()
 void poweroff()
 {
 	system("/sbin/sudo /sbin/poweroff");
+	system("echo 0 > /sys/class/backlight/backlight/brightness");
 	while(1); // wait forever
 }
 
