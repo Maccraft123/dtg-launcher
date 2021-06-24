@@ -111,15 +111,7 @@ void usb_mass()
 	struct input_event ev[64];
 	joyfd = open(JOYDEV, O_RDONLY);
 
-	for(;;)
-		rd = read(joyfd, ev, sizeof(struct input_event) * 64);
-			if(rd > 0)
-				for(int i = 0; i < rd / sizeof(struct input_event); i++)
-					if(ev[i].type == EV_KEY && ev[i].value == 1 && ev[i].code = BTN_Y)
-						goto end;
-	end:
-
-
+	read(joyfd, ev, sizeof(struct input_event) * 64);
 	system("sudo /dtg-ng/programs/usb_mass_helper stop");
 }
 
