@@ -1,5 +1,5 @@
 default:
-	gcc -O2 main.c -o dtg-launcher -lncurses
+	${CC} -O2 main.c -o dtg-launcher -lncurses
 	strip dtg-launcher
 install:
 	cp dtg-launcher /bin/dtg-launcher
