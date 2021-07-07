@@ -49,6 +49,20 @@ void minecraft()
 	system("swaymsg workspace 1 || true");
 }
 
+void re3()
+{
+	printf("Working on it...\n");
+	if(access("/data/gta3/re3_installed", F_OK) == 0)
+	{
+		system("cp -r /data/re3_in/* /data/gta3/");
+		system("touch /data/gta3/re3_installed");
+		system("chmod a+x /data/gta3/re3");
+	}
+	system("swaymsg workspace 2");
+	system("cd /data/gta3; /data/gta3/re3");
+	system("swaymsg workspace 1");
+}
+
 void ppsspp()
 {
 	system("swaymsg workspace 2 || true");
@@ -58,7 +72,7 @@ void ppsspp()
 
 void poweroff()
 {
-	system("/sbin/sudo /sbin/poweroff");
+	system("sudo /sbin/poweroff");
 	system("echo 0 > /sys/class/backlight/backlight/brightness");
 	while(1); // wait forever
 }
@@ -176,7 +190,7 @@ int main(void)
 	menus[MAINMENU].items[4].function = &todo; //xash3d
 	menus[MAINMENU].items[5].function = &ppsspp;
 	menus[MAINMENU].items[6].function = &todo; //thextech
-	menus[MAINMENU].items[7].function = &todo; //re3
+	menus[MAINMENU].items[7].function = &re3;
 	menus[MAINMENU].items[8].function = &todo; //media player
 	menus[MAINMENU].items[9].function = &usb_mass; //usb
 	menus[MAINMENU].items[10].function = &todo; //update
