@@ -52,8 +52,9 @@ void minecraft()
 void re3()
 {
 	printf("Working on it...\n");
-	if(access("/data/gta3/re3_installed", F_OK) == 0)
+	if(access("/data/gta3/re3_installed", F_OK) != 0)
 	{
+		printf("Copying files...\n");
 		system("cp -r /data/re3_in/* /data/gta3/");
 		system("touch /data/gta3/re3_installed");
 		system("chmod a+x /data/gta3/re3");
