@@ -157,6 +157,13 @@ int main(void)
 
 	struct menu menus[4];
 
+	// setup data partition
+	if(access("/dtg-ng/firstrun_ok", F_OK) != 0)
+	{
+		system("sudo /dtg-ng/firstrun.sh");
+		system("sudo touch /dtg-ng/firstrun_ok");
+	}
+
 	// init curses
 	initscr();
 	cbreak();
